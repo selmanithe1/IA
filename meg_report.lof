@@ -1,0 +1,12 @@
+\babel@toc {french}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Visualisation "Stem Plot" d'un vecteur cible $Z$. On observe clairement la nature sparse du signal : seules 3 parcelles sont actives sur 450.}}{4}{figure.caption.3}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Influence du nombre de voisins $k$ sur l'exactitude. Le "coude" optimal se situe à $k=5$.}}{5}{figure.caption.4}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Schéma de l'architecture du MLP. L'entrée (204) est projetée vers deux couches cachées ReLU avant la couche de sortie Sigmoid (450) pour la classification multi-label.}}{6}{figure.caption.5}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Courbes d'apprentissage. La Training Loss (violet) diminue régulièrement, tandis que la Validation Score (vert) augmente et se stabilise, prouvant que le modèle apprend sans sur-apprentissage massif.}}{6}{figure.caption.6}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Nombre de sources actives prédites en fonction de $\alpha $. Un $\alpha $ trop fort éteint toutes les sources (Underfitting).}}{7}{figure.caption.7}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Comparaison finale. Le MLP domine sur le F1-Score (meilleure reconstruction globale), tandis que le KNN et le MLP ont des Hamming Loss comparables.}}{8}{figure.caption.8}%
+\addvspace {10\p@ }

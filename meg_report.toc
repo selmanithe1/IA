@@ -1,0 +1,19 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduction et Contexte Scientifique}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Le Phénomène Biologique}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Le Problème Mathématique $X=LZ+n$}{3}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Exploration des Données}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Données et Prétraitement Vital}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Analyse de la Sparsité (Visualisation par Stem Plot)}{4}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Méthodologie et Modélisation}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}1. K-NN : Choix de l'Hyperparamètre k}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.2}2. Lasso vs LassoLars : L'Approche Régularisée}{5}{section.3.2}%
+\contentsline {section}{\numberline {3.3}3. Réseaux de Neurones (MLP)}{6}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Architecture du Réseau}{6}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Analyse de l'Apprentissage (Overfitting ?)}{6}{subsection.3.3.2}%
+\contentsline {chapter}{\numberline {4}Résultats et Analyse Critique}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Analyse des Hyperparamètres (Lasso)}{7}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Synthèse des Performances}{7}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Perspectives et Imagination}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}1. Feature Engineering : L'Énergie du Signal}{9}{section.5.1}%
+\contentsline {section}{\numberline {5.2}2. Graph Convolutional Networks (GCN)}{9}{section.5.2}%

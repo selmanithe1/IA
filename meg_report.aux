@@ -1,0 +1,56 @@
+\relax 
+\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }
+\@nameuse{bbl@beforestart}
+\catcode `:\active 
+\catcode `;\active 
+\catcode `!\active 
+\catcode `?\active 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\babel@aux{french}{}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction et Contexte Scientifique}{3}{chapter.1}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Le Phénomène Biologique}{3}{section.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Le Problème Mathématique $X=LZ+n$}{3}{section.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Exploration des Données}{4}{chapter.2}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Données et Prétraitement Vital}{4}{section.2.1}\protected@file@percent }
+\newlabel{fig:dist}{{2.1a}{4}{Sparsité des sources}{figure.caption.3}{}}
+\newlabel{sub@fig:dist}{{a}{4}{Sparsité des sources}{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Caractéristiques des données.}}{4}{figure.caption.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Méthodologie et Modélisation}{5}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}1. K-NN : L'Approche Géométrique}{5}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}2. Lasso vs LassoLars : L'Approche Régularisée}{5}{section.3.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}{\ignorespaces Comparaison Linear Model}}{5}{lstlisting.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}3. Deep Learning (MLP)}{5}{section.3.3}\protected@file@percent }
+pes de capteurs fortement corrélés}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Sparsité des Sources}{5}{section.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Distribution du nombre de sources actives. La nature "clairsemée" (sparse) des données est évidente et doit guider le choix des modèles.}}{5}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:dist}{{2.3}{5}{Distribution du nombre de sources actives. La nature "clairsemée" (sparse) des données est évidente et doit guider le choix des modèles}{figure.caption.5}{}}
+ {section}{\numberline {3.3}3. Réseaux de Neurones (MLP)}{6}{section.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Architecture du Réseau}{6}{subsection.3.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Schéma de l'architecture du MLP. L'entrée (204) est projetée vers deux couches cachées ReLU avant la couche de sortie Sigmoid (450) pour la classification multi-label.}}{6}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:mlp_arch}{{3.2}{6}{Schéma de l'architecture du MLP. L'entrée (204) est projetée vers deux couches cachées ReLU avant la couche de sortie Sigmoid (450) pour la classification multi-label}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Analyse de l'Apprentissage (Overfitting ?)}{6}{subsection.3.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Courbes d'apprentissage. La Training Loss (violet) diminue régulièrement, tandis que la Validation Score (vert) augmente et se stabilise, prouvant que le modèle apprend sans sur-apprentissage massif.}}{6}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:nn_loss}{{3.3}{6}{Courbes d'apprentissage. La Training Loss (violet) diminue régulièrement, tandis que la Validation Score (vert) augmente et se stabilise, prouvant que le modèle apprend sans sur-apprentissage massif}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Résultats et Analyse Critique}{7}{chapter.4}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Analyse des Hyperparamètres (Lasso)}{7}{section.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Nombre de sources actives prédites en fonction de $\alpha $. Un $\alpha $ trop fort éteint toutes les sources (Underfitting).}}{7}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:sparsity}{{4.1}{7}{Nombre de sources actives prédites en fonction de $\alpha $. Un $\alpha $ trop fort éteint toutes les sources (Underfitting)}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Synthèse des Performances}{7}{section.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Comparaison finale. Le MLP domine sur le F1-Score (meilleure reconstruction globale), tandis que le KNN et le MLP ont des Hamming Loss comparables.}}{8}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:comparison}{{4.2}{8}{Comparaison finale. Le MLP domine sur le F1-Score (meilleure reconstruction globale), tandis que le KNN et le MLP ont des Hamming Loss comparables}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Perspectives et Imagination}{9}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}1. Feature Engineering : L'Énergie du Signal}{9}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}2. Graph Convolutional Networks (GCN)}{9}{section.5.2}\protected@file@percent }
+\gdef \@abspage@last{12}
