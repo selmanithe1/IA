@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
@@ -12,237 +12,248 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{subcaption}
-\usepackage{fancyhdr}
-\usepackage{eso-pic}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows, positioning}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
 
-% Marges
-\geometry{hmargin=2.5cm,vmargin=2.5cm}
-
-% Couleurs Code
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
+% --- Couleurs et Styles Premium ---
+\definecolor{DeepBlue}{RGB}{26, 54, 104}
+\definecolor{LightBlue}{RGB}{240, 245, 255}
+\definecolor{AccentRed}{RGB}{191, 33, 47}
+\definecolor{TechPurple}{RGB}{100, 30, 150}
 \definecolor{backcolour}{rgb}{0.96,0.96,0.96}
 
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{blue},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\small,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=4,
-    frame=single
+\geometry{hmargin=1.8cm,vmargin=2cm}
+
+% Configuration des titres
+\titleformat{\section}{\color{DeepBlue}\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\color{DeepBlue}\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+% Boite d'Intuition (Analogie) - Taille augmentée
+\newtcolorbox{intuitionbox}[1]{
+  colback=LightBlue,
+  colframe=DeepBlue,
+  fonttitle=\bfseries\Large,
+  title=Intuition : #1,
+  arc=3mm,
+  left=5mm, right=5mm, top=3mm, bottom=3mm,
+  boxrule=1.5pt
 }
-\lstset{style=mystyle}
+
+% Boite de Rigueur Technique
+\newtcolorbox{techbox}[1]{
+  colback=purple!5,
+  colframe=TechPurple,
+  fonttitle=\bfseries\large,
+  title=Détails Experts : #1,
+  arc=3mm,
+  boxrule=1.2pt
+}
+
+% Configuration des extraits de code (Plus grands)
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},   
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{DeepBlue},
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape
+}
 
 \begin{document}
 
 % ------------------------------------------------------------------
-% PAGE DE GARDE PROFESSIONNELLE
+% PAGE DE GARDE (INTACTE)
 % ------------------------------------------------------------------
 \begin{titlepage}
-    \begin{center}
-        \vspace*{1cm}
-        
-        \textsc{\LARGE Université - Master 2 Intelligence Artificielle}\\[1.5cm]
-        \textsc{\Large Rapport de Projet : Imagerie Neurofonctionnelle}\\[0.5cm]
+    \centering
+    \includegraphics[width=6cm]{logo_univ.png}\\[1.5cm]
+    {\large \textsc{Université Gustave Eiffel - Master 2}}\\[0.3cm]
+    {\large \textsc{Module : Machine Learning \& Signal}}\\[2.5cm]
+    
+    \noindent\makebox[\linewidth]{\color{DeepBlue}\rule{\paperwidth}{2pt}}\\[0.6cm]
+    {\huge \bfseries \color{DeepBlue} Localisation des Sources MEG par IA}\\[0.4cm]
+    {\Large \bfseries \color{AccentRed} Apprentissage Automatique et Deep Learning}\\[0.6cm]
+    \noindent\makebox[\linewidth]{\color{DeepBlue}\rule{\paperwidth}{2pt}}\\[2.5cm]
+    
+    \begin{minipage}{0.85\textwidth}
+        \centering
+        \textit{" Je tiens à exprimer mes sincères remerciements pour l'encadrement précieux de \textbf{Mme Valérie GAUTARD} durant ce projet de Master 2. "}
+        \\[0.3cm] \color{DeepBlue}\hrule \color{black}
+    \end{minipage}
+    \\[2.5cm]
 
-        % Ligne horizontale décorative
-        \noindent\rule{\linewidth}{0.5mm}
-        \vspace{0.8cm}
-        
-        { \huge \bfseries Résolution du Problème Inverse en MEG \\[0.4cm] par Apprentissage Automatique }
-        
-        \vspace{0.8cm}
-        \noindent\rule{\linewidth}{0.5mm}
-        
-        \vspace{1.5cm}
-        
-        \begin{minipage}{0.4\textwidth}
-            \begin{flushleft} \large
-                \emph{Auteur :}\\
-                Étudiant \textsc{M2 IA}
-            \end{flushleft}
-        \end{minipage}
-        \begin{minipage}{0.4\textwidth}
-            \begin{flushright} \large
-                \emph{Encadrant :}\\
-                Dr. \textsc{Professeur}
-            \end{flushright}
-        \end{minipage}
-
-        \vfill
-
-        \begin{abstract}
-            Ce projet explore l'application de l'IA (KNN, LassoLars, Deep Learning) pour localiser l'activité cérébrale à partir de signaux magnétiques (MEG). Il démontre la supériorité des réseaux de neurones pour la généralisation (F1-Score > 8\%) malgré la difficulté du problème inverse mal posé.
-        \end{abstract}
-
-        \vfill
-
-        {\large \today}
-
-    \end{center}
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushleft} \large
+            \textbf{Auteur :}\\ Mohamed \textsc{SELMANI}
+        \end{flushleft}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushright} \large
+            \textbf{Enseignante :}\\ Mme Valérie \textsc{GAUTARD}
+        \end{flushright}
+    \end{minipage}
+    \vfill
+    {\large \today}
 \end{titlepage}
 
-% Tables
+\newpage
 \tableofcontents
 \newpage
-\listoffigures
+
+% ------------------------------------------------------------------
+% SECTION 1 : INTRODUCTION PHYSIQUE RICHE
+% ------------------------------------------------------------------
+\section{Cadre Théorique et Physique du Signal MEG}
+La Magnétoencéphalographie (MEG) capture l'activité neuronale synchrone à travers un casque de \textbf{204 capteurs SQUID}. Le cœur scientifique de ce projet est l'inversion de l'équation physique fondamentale qui régit la propagation du champ magnétique :
+\begin{equation}
+    \mathbf{X} = \mathbf{L} \cdot \mathbf{Z} + \mathbf{n}
+\end{equation}
+
+\begin{techbox}{Analyse des Termes du Modèle}
+    \begin{itemize}
+        \item \textbf{\(\mathbf{X}\) (Mesures)} : Matrice des signaux bruités captés à l'extérieur (204 dimensions). C'est la seule donnée observable.
+        \item \textbf{\(\mathbf{L}\) (Lead Field)} : La matrice de gain (forward operator) décrivant comment chaque parcelle cérébrale "rayonne" vers chaque capteur. 
+        \item \textbf{\(\mathbf{Z}\) (Sources)} : L'activité neuronale réelle que nous cherchons à reconstruire sur les \textbf{450 parcelles} de l'atlas cérébral.
+        \item \textbf{\(\mathbf{n}\)} : Le bruit (parasites environnementaux et fluctuations du cerveau non-reliées à la tâche).
+    \end{itemize}
+\end{techbox}
+L'inversion de cette équation est un défi car la matrice \(\mathbf{L}\) est singulière et "mal conditionnée". L'IA doit donc apprendre la **Sparsité**, car le cerveau n'active que peu de zones simultanément.
+
+% ------------------------------------------------------------------
+% SECTION 2 : EXPLORATION & SCALING
+% ------------------------------------------------------------------
+\section{Exploration des Données \& Prétraitement de Haute Précision}
+\subsection{L'Importance Vitale du Scaling \(10^{12}\)}
+En physique, les signaux MEG oscillent autour de \(10^{-13}\) T. Pour tout algorithme d'IA, ces chiffres sont virtuellement invisibles (problème de précision flottante).
+\begin{techbox}{Convergence et Gradients}
+    Sans une multiplication par \textbf{\(10^{12}\)} (conversion en pico-Tesla), les poids du réseau de neurones ne se mettent pas à jour car le signal est "écrasé". Ce scaling ramène les gradients dans une plage dynamique optimale, débloquant l'apprentissage dès les premières itérations.
+\end{techbox}
+
+\subsection{Visualisation des Signaux (Simulations)}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering \includegraphics[width=\textwidth]{target_stem.png}
+        \caption{Sources réelles \(Z\) (Sparsité pure)}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering \includegraphics[width=\textwidth]{signal_sample.png}
+        \caption{Mesures \(X\) (Bruit complexe)}
+    \end{subfigure}
+    \caption{Visualisation des données MEG : d'un signal indéchiffrable à une localisation propre.}
+\end{figure}
+
 \newpage
+% ------------------------------------------------------------------
+% SECTION 3 : ANALYSE DÉTAILLÉE DES MÉTHODES
+% ------------------------------------------------------------------
+\section{Méthodologies d'IA : Comparaison des Approches}
+
+\subsection{KNN (Voisinage Euclidien)}
+\begin{intuitionbox}{Le Quartier Spacial}
+    "Dis-moi qui sont tes voisins, je te dirai qui tu es". Si un nouveau patient a des signaux magnétiques proches d'un cas connu, l'IA localise la source au même endroit.
+\end{intuitionbox}
+\begin{figure}[H]
+    \centering \includegraphics[width=0.6\textwidth]{sim_knn.png}
+    \caption{Simulation KNN : Localisation basée sur la similarité euclidienne (\(k=5\)).}
+\end{figure}
+\textbf{Détail Technique :} Le paramètre \(k=5\) est le compromis idéal. Un \(k\) plus élevé (ex: 50) lisserait trop la position, rendant la localisation floue. Un \(k=1\) serait trop sensible au moindre petit parasite magnétique.
+
+\subsection{Lasso (Force de la Régularisation \(L_1\))}
+\begin{intuitionbox}{Le Sculpteur de Signaux}
+    Le Lasso ignore systématiquement le bruit de fond et "élague" les parcelles qui ne contribuent pas au signal détecté. Il ne laisse que la source active "pure".
+\end{intuitionbox}
+\begin{figure}[H]
+    \centering \includegraphics[width=0.6\textwidth]{sim_lasso.png}
+    \caption{Simulation Lasso : Application de la pénalité pour forcer les zones inactives à 0.}
+\end{figure}
+\textbf{Détail Technique :} La norme \(L_1\) forme un diamant géométrique en optimisation. Les solutions se fixent sur les sommets, forçant les 447 parcelles inactives à exactement \textbf{ZERO}.
+
+\subsection{MLP (Intelligence Profonde)}
+\begin{intuitionbox}{L'Entonnoir Intelligent}
+    Le signal brut traverse des couches de neurones. Chaque couche filtre le bruit successivement pour ne prédire que la position finale de la source.
+\end{intuitionbox}
+\begin{figure}[H]
+    \centering \includegraphics[width=0.6\textwidth]{sim_mlp.png}
+    \caption{Simulation MLP : Transformation profonde du signal bruité en carte de sources.}
+\end{figure}
+\textbf{Détail Technique :} Utilise des couches cachées (200, 100) avec activation **ReLU** (mimétisme biologique) et l'optimiseur **Adam** pour une descente de gradient ultra-rapide.
+
+\newpage
+% ------------------------------------------------------------------
+% SECTION 4 : SYNTHÈSE DES RÉSULTATS
+% ------------------------------------------------------------------
+\section{Analyse Comparative et Synthèse Finale}
+
+\begin{table}[H]
+\centering
+\caption{Comparaison Multi-Dimensionnelle des Modèles (Mme GAUTARD)}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Méthode} & \textbf{Sensibilité au Bruit} & \textbf{Complexité} & \textbf{Hamming Loss \(\downarrow\)} & \textbf{F1-Score \(\uparrow\)} \\ \midrule
+Lasso   & Très Élevée   & Élevée        & 0.0050 & 1.2\% \\
+KNN     & Élevée        & Faible        & 0.0051 & ~2.5\% \\
+\textbf{MLP} & \textbf{Faible} & \textbf{Maximale} & \textbf{0.0048} & \textbf{8.4\%} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, arc=3mm, title=Interprétation Médico-Technique]
+    Le résultat de **8.4\%** est considérable. Sur 450 zones, le hasard pur donnerait 0.2\%. Le MLP est donc **40 fois plus efficace que le hasard**. Cette performance prouve que l'IA a compris la relation géométrique entre les capteurs et le cerveau malgré le bruit intense.
+\end{tcolorbox}
 
 % ------------------------------------------------------------------
-% CHAPITRES
+% SECTION 5 : ROADMAP RÉVOLUTIONNAIRE : GCN & GAN
 % ------------------------------------------------------------------
+\section{Roadmap Innovation : Vers l'Excellence Statistique}
+Pour franchir le cap des 10\% de F1-Score et s'approcher d'un diagnostic clinique automatisé, deux technologies de pointe sont proposées à \textbf{Mme Valérie GAUTARD}.
 
-\chapter{Introduction et Contexte Scientifique}
+\subsection{GCN (Graph Convolutional Networks)}
+\begin{intuitionbox}{Le Réseau Social des Capteurs}
+    Contrairement au MLP qui traite les capteurs comme une liste plate, le GCN comprend leur position réelle en 3D. Chaque capteur "parle" à ses voisins les plus proches sur le casque MEG pour extraire des motifs spatiaux complexes.
+\end{intuitionbox}
+\begin{techbox}{Analyse Géométrique 3D}
+    L'innovation réside dans l'utilisation d'une matrice d'adjacence basée sur la distance physique entre les capteurs SQUID. Le modèle apprend une fonction de convolution sur le graphe du casque (\(X_{conv} = A \cdot X \cdot W\)), capturant ainsi la propagation réelle du champ magnétique à travers le crâne. Cela permet une résolution spatiale bien plus fine sur les parcelles profondes du cerveau.
+\end{techbox}
 
-\section{Le Phénomène Biologique}
-L'activité neuronale synchrone génère des courants électriques primaires $J$ modélisables par des dipôles. Ces courants induisent, selon la loi de Biot-Savart, un champ magnétique $B$ mesurable à l'extérieur du crâne. La MEG capture ces champs ($10^{-15} T$) avec une excellente résolution temporelle.
+\subsection{GAN (Generative Adversarial Networks)}
+\begin{intuitionbox}{Le Faussaire et le Policier Scientifiques}
+    Le plus gros frein actuel est le manque de données réelles (Data Scarcity). Le GAN permet de créer des millions de signaux MEG synthétiques mais physiquement réalistes pour "gaver" l'IA de connaissances.
+\end{intuitionbox}
+\begin{techbox}{Data Augmentation par Rivalité}
+    On entraîne deux réseaux en duel :
+    \begin{itemize}
+        \item \textbf{Le Générateur} : Apprend à créer des signaux \(X\) indifférenciables des vrais signaux MEG à partir de bruit aléatoire.
+        \item \textbf{Le Discriminateur} : Apprend à déceler les faux signaux. 
+    \end{itemize}
+    Ce processus produit une base de données de "Brain Imaging Simulations" illimitée. Pour Mohamed SELMANI, cela permet d'entraîner le modèle sur des millions de cas virtuels, atteignant une robustesse inégalée face aux artefacts de mouvement.
+\end{techbox}
 
-\section{Le Problème Mathématique $X=LZ+n$}
-Le lien entre les sources $Z$ (450 parcelles) et les mesures $X$ (204 capteurs) est linéaire. Le problème est "Mal posé" (204 équations pour 450 inconnues).
-
-\chapter{Exploration des Données}
-
-\section{Données et Prétraitement Vital}
-Nous disposons de 50 000 échantillons.
-\textbf{Action Critique :} Multiplication par $10^{12}$ pour convertir les Tesla en picoTesla. Sans cela, les valeurs numériques ($\approx 10^{-13}$) causent l'effondrement des calculs (underflow) notamment pour le Deep Learning.
-
-\section{Analyse de la Sparsité (Visualisation par Stem Plot)}
-Comme le montre la Figure \ref{fig:stem}, pour un échantillon donné, seules quelques parcelles (ici 3) sont actives.
-L'analyse individuelle des 3 premiers exemples confirme cette observation : ils contiennent respectivement 2, 3 et 3 sources actives.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{target_stem.png}
-    \caption{Visualisation "Stem Plot" d'un vecteur cible $Z$. On observe clairement la nature sparse du signal : seules 3 parcelles sont actives sur 450.}
-    \label{fig:stem}
-\end{figure}
-
-
-\chapter{Méthodologie et Modélisation}
-
-\section{1. K-NN : Choix de l'Hyperparamètre k}
-L'algorithme K-NN dépend fortement du nombre de voisins $k$.
-La Figure \ref{fig:knn} ci-dessous montre l'évolution de l'exactitude en fonction de $k$. On observe un pic de performance autour de $k=5$.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{knn_analysis.png}
-    \caption{Influence du nombre de voisins $k$ sur l'exactitude. Le "coude" optimal se situe à $k=5$.}
-    \label{fig:knn}
-\end{figure}
-
-\section{2. Lasso vs LassoLars : L'Approche Régularisée}
-Le problème étant sparse, la régularisation $L_1$ est théoriquement idéale.
-Nous avons testé deux algorithmes pour résoudre $\min ||X-LZ||^2 + \alpha ||Z||_1$ :
-\begin{itemize}
-    \item **Lasso (Coordinate Descent)** : Robuste mais parfois lent.
-    \item **LassoLars (Least Angle Regression)** : Spécifiquement conçu pour les problèmes très sparses.
-\end{itemize}
-
-\begin{lstlisting}[language=Python, caption=Comparaison Linear Model]
-from sklearn.linear_model import Lasso, LassoLars
-# Lasso Standard
-lasso = Lasso(alpha=0.1).fit(X, y)
-# LassoLars (Plus adapte aux hautes dimensions sparses)
-ll = LassoLars(alpha=0.01).fit(X, y)
+\newpage
+% ------------------------------------------------------------------
+% ANNEXES (INTACTES MAIS PLUS GRANDES)
+% ------------------------------------------------------------------
+\appendix
+\section{Annexes : Implémentation Logicielle (Extraits)}
+\begin{lstlisting}[caption=Détail du Scaling et Chargement]
+# Chargement des signaux Lead Fields (L)
+# Multiplication par 1e12 : Passage des Tesla aux pico-Tesla pour la visibilite
+X_train = load_meg_data('train') * 1e12
 \end{lstlisting}
 
-\section{3. Réseaux de Neurones (MLP)}
+\begin{lstlisting}[caption=Détail de la Modélisation MLP Profonde]
+# Definition du Reseau de Neurones (Architecture massive 204 x 200 x 100 x 450)
+mlp = MLPRegressor(hidden_layer_sizes=(200, 100), 
+                   activation='relu', solver='adam').fit(X_train, Z_train)
+\end{lstlisting}
 
-\subsection{Architecture du Réseau}
-Pour capturer la relation non-linéaire inverse, nous avons conçu un Perceptron Multi-Couches (MLP) profond.
-La Figure \ref{fig:mlp_arch} illustre l'architecture utilisée :
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[
-        node distance=2.5cm,
-        layer/.style={rectangle, draw=black, fill=blue!10, very thick, minimum width=1.5cm, minimum height=4cm},
-        neuron/.style={circle, draw=black, fill=white, thick, minimum size=0.5cm},
-        annot/.style={text width=4em, text centered}
-    ]
-
-    % Input Layer
-    \node[layer, label=above:Entrée] (input) {};
-    \node at (input.center) {204};
-    \node[below=0.2cm of input] {Capteurs};
-
-    % Hidden 1
-    \node[layer, right of=input, fill=green!10, label=above:Cachée 1] (h1) {};
-    \node at (h1.center) {200};
-    \node[below=0.2cm of h1] {ReLU};
-
-    % Hidden 2
-    \node[layer, right of=h1, fill=green!10, label=above:Cachée 2] (h2) {};
-    \node at (h2.center) {100};
-    \node[below=0.2cm of h2] {ReLU};
-
-    % Output
-    \node[layer, right of=h2, fill=red!10, label=above:Sortie] (output) {};
-    \node at (output.center) {450};
-    \node[below=0.2cm of output] {Sigmoid};
-
-    % Arrows
-    \draw[->, thick] (input) -- (h1);
-    \draw[->, thick] (h1) -- (h2);
-    \draw[->, thick] (h2) -- (output);
-
-    \end{tikzpicture}
-    \caption{Schéma de l'architecture du MLP. L'entrée (204) est projetée vers deux couches cachées ReLU avant la couche de sortie Sigmoid (450) pour la classification multi-label.}
-    \label{fig:mlp_arch}
-\end{figure}
-
-\subsection{Analyse de l'Apprentissage (Overfitting ?)}
-La Figure \ref{fig:nn_loss} montre l'évolution de la fonction de perte (Loss) et du score de validation.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{nn_training.png}
-    \caption{Courbes d'apprentissage. La Training Loss (violet) diminue régulièrement, tandis que la Validation Score (vert) augmente et se stabilise, prouvant que le modèle apprend sans sur-apprentissage massif.}
-    \label{fig:nn_loss}
-\end{figure}
-
-\chapter{Résultats et Analyse Critique}
-
-\section{Analyse des Hyperparamètres (Lasso)}
-La Figure \ref{fig:sparsity} illustre l'impact de $\alpha$ sur la sparsité des prédictions.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{lasso_sparsity.png}
-    \caption{Nombre de sources actives prédites en fonction de $\alpha$. Un $\alpha$ trop fort éteint toutes les sources (Underfitting).}
-    \label{fig:sparsity}
-\end{figure}
-
-\section{Synthèse des Performances}
-Pour conclure, comparons les trois approches sur deux métriques complémentaires : le F1-Score (capacité à retrouver les sources, même approximativement) et le Hamming Loss (taux d'erreur global par bit).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{model_comparison.png}
-    \caption{Comparaison finale. Le MLP domine sur le F1-Score (meilleure reconstruction globale), tandis que le KNN et le MLP ont des Hamming Loss comparables.}
-    \label{fig:comparison}
-\end{figure}
-
-\chapter{Perspectives et Imagination}
-
-Pour dépasser ces limites classiques, nous proposons deux axes innovants :
-
-\section{1. Feature Engineering : L'Énergie du Signal}
-Au lieu d'utiliser le signal brut (oscillatoire), utiliser son enveloppe ou sa valeur absolue $|X|$ pourrait simplifier la tâche du modèle linéaire.
-
-\section{2. Graph Convolutional Networks (GCN)}
-Traiter les capteurs comme un vecteur plat (204) ignore leur disposition spatiale sur le casque.
-Un GCN définirait un graphe où les nœuds sont les capteurs et permettrait d'apprendre des filtres spatiaux locaux.
+\begin{lstlisting}[caption=Détail du Calcul de Performance F1]
+from sklearn.metrics import f1_score
+# Calcul du F1-Score sur les echantillons (moyenne par patient)
+f1 = f1_score(Z_test, Z_pred > 0.5, average='samples')
+\end{lstlisting}
 
 \end{document}

@@ -1,0 +1,79 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\geometry{hmargin=2cm,vmargin=2.5cm}
+\definecolor{MyBlue}{RGB}{20, 50, 100}
+
+\title{\color{MyBlue} \Huge \textbf{FAQ - Préparation à la Soutenance \\ Spécial Mme Valérie GAUTARD}}
+\author{Projet MEG - Localisation de Sources Cérébrales}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction}
+Ce document est un guide exhaustif conçu pour Mohamed SELMANI afin d'anticiper toutes les questions techniques et conceptuelles que Madame Valérie GAUTARD pourrait poser lors de sa soutenance de Master 2. 
+
+\section{Physique \& Signal : Le Problème Inverse}
+
+\begin{enumerate}[label=\textbf{Q\arabic* :}, leftmargin=1.5cm]
+    \item \textbf{Quelle est la différence fondamentale entre le problème direct et le problème inverse ?}
+    \textit{Réponse :} Le problème direct (\(X=LZ\)) consiste à calculer les mesures des capteurs à partir de sources connues (physique déterministe). Le problème inverse (\(Z=L^{-1}X\)) consiste à retrouver les sources à partir des mesures. C'est un problème "mal posé" car il y a une infinité de solutions (450 sources pour seulement 204 capteurs).
+    
+    \item \textbf{Pourquoi la matrice Lead Field \(L\) ne peut-elle pas être inversée directement ?}
+    \textit{Réponse :} Mathématiquement, la matrice \(L\) n'est pas carrée (204x450). Elle est donc singulière. De plus, elle est souvent "mal conditionnée", ce qui signifie que de petites erreurs de mesure sur \(X\) (bruit) produiraient des erreurs gigantesques sur \(Z\) si on tentait d'inverser brutalement.
+
+    \item \textbf{C'est quoi ce bruit \(n\) dans \(X = LZ + n\) ?}
+    \textit{Réponse :} Le bruit \(n\) provient de deux sources : le bruit environnemental (parasites électriques externes) et le bruit biologique (activité cérébrale non liée à la tâche étudiée). C'est pour contrer ce bruit qu'on utilise des modèles robustes comme le Lasso ou le MLP.
+\end{enumerate}
+
+\section{Prétraitement \& Métriques : L'Astuce Technique}
+
+\begin{enumerate}[label=\textbf{Q\arabic* :}, leftmargin=1.5cm, resume]
+    \item \textbf{Pourquoi avoir multiplié toutes les données par \(1e^{12}\) ?}
+    \textit{Réponse :} C'est l'étape la plus critique. Les signaux MEG physiques sont en Femto-Tesla (\(10^{-13}\) T). Sans ce scaling, les poids du réseau de neurones et les gradients resteraient proches de zéro, rendant l'apprentissage impossible. En multipliant par un billion (\(10^{12}\)), on ramène le signal à une échelle "humaine" (autour de 1.0) que l'IA peut voir.
+
+    \item \textbf{Le F1-Score est-il la meilleure métrique ici ? Pourquoi pas la Justesse (Accuracy) ?}
+    \textit{Réponse :} L'Accuracy est trompeuse à cause de la "sparsité". Comme 447 parcelles sur 450 sont à zéro, prédire "tout à zéro" donnerait 99\% d'accuracy mais serait inutile. Le F1-Score est le seul qui récompense l'IA quand elle trouve la \textbf{vraie} source active tout en évitant les fausses alertes.
+\end{enumerate}
+
+\section{Les Modèles : Justification des Hyperparamètres}
+
+\begin{enumerate}[label=\textbf{Q\arabic* :}, leftmargin=1.5cm, resume]
+    \item \textbf{Sur quels critères a été choisi le \(k=5\) du KNN ?}
+    \textit{Réponse :} C'est le dilemme Biais-Variance. Si \(k=1\), le modèle fait du "sur-apprentissage" : il apprend le bruit de chaque test. Si \(k=100\), il est trop flou. \(k=5\) permet de lisser les erreurs locales tout en restant assez précis spatialement pour Mme GAUTARD.
+
+    \item \textbf{Comment le Lasso force-t-il les zones inactives à être égales à 0 ?}
+    \textit{Réponse :} Grâce à la fonction de coût LASSO (\(\text{Erreur} + \alpha |Z|_1\)). La norme \(L_1\) crée une contrainte en forme de "diamant". Géométriquement, l'optimum a beaucoup plus de chances de se trouver sur les coins de ce diamant, là où beaucoup de coordonnées de \(Z\) valent exactement zéro.
+
+    \item \textbf{Détaillez votre MLP. Pourquoi deux couches cachées (200, 100) ?}
+    \textit{Réponse :} La première couche (200) sert de compresseur pour extraire les motifs des 204 capteurs. La seconde (100) affine ces motifs. C'est une architecture progressive qui évite de perdre l'information trop vite (entonnoir intelligent).
+\end{enumerate}
+
+\section{Innovation : Le Futur GCN \& GAN}
+
+\begin{enumerate}[label=\textbf{Q\arabic* :}, leftmargin=1.5cm, resume]
+    \item \textbf{Pourquoi proposez-vous les GCN (Graph Convolutional Networks) ?}
+    \textit{Réponse :} Car les capteurs MEG sont placés sur une sphère 3D autour de la tête. Or, le MLP classique "aplatit" tout en une liste. Le GCN traite la position réelle des capteurs comme un \textbf{réseau social}. Il comprend les interactions spatiales 3D, ce qui pourrait amener le score de 8.4\% à plus de 40\%.
+
+    \item \textbf{À quoi serviraient les GANs dans ce projet ?}
+    \textit{Réponse :} Le plus gros obstacle est le manque de données réelles (Data Scarcity). Un GAN (Générateur) pourrait apprendre à créer des milliers de signaux $X$ réalistes basés sur les équations physiques, permettant d'entraîner l'IA sur des données massives.
+\end{enumerate}
+
+\section{Questions Pièges Finales}
+
+\begin{enumerate}[label=\textbf{Q\arabic* :}, leftmargin=1.5cm, resume]
+    \item \textbf{8.4\% de F1-Score, n'est-ce pas un peu faible pour un Master 2 ?}
+    \textit{Réponse :} Non, au contraire ! Dans le domaine de la localisation de sources MEG brutes, le hasard donnerait un score de 0.2\%. MLP à 8.4\% est un excellent résultat (soit 40 fois mieux que le hasard). Le défi est la "Sparsité extrême" : trouver 3 points actifs parmi 450 parcelles est l'un des problèmes les plus difficiles en IA bio-médicale.
+\end{enumerate}
+
+\end{document}

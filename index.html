@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MÉTHODE MEG - Présentation Mme Valérie GAUTARD</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    .simulation-photo { width: 100%; border-radius: 12px; margin-bottom: 1rem; border: 1px solid var(--border-color); }
+    .btn-full-code { display: inline-block; margin-top: 1rem; padding: 0.8rem 1.5rem; background: var(--accent-blue); color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold; transition: background 0.3s ease; }
+    .btn-full-code:hover { background: #0056b3; }
+    .sim-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem; align-items: center; margin-bottom: 5rem; }
+    .explainer { background: rgba(88, 166, 255, 0.05); border-left: 4px solid var(--accent-blue); padding: 1.2rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+    .tech-deep-dive { background: rgba(188, 140, 255, 0.1); border-left: 4px solid #bc8cff; padding: 1.2rem; border-radius: 0 8px 8px 0; margin-top: 1rem; font-size: 0.95rem; }
+    .simulation-card { background: #010409; border: 1px dashed var(--border-color); padding: 1rem; border-radius: 12px; text-align: center; }
+    .roadmap-badge { background: var(--accent-red); color: #fff; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: bold; margin-right: 0.5rem; font-size: 0.8rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 2rem; background: var(--panel-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
+    th, td { padding: 1.5rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+    th { background: rgba(88, 166, 255, 0.1); color: var(--accent-blue); font-weight: bold; }
+    .code-snippet { font-family: 'Courier New', Courier, monospace; background: #0d1117; padding: 0.5rem; border-radius: 4px; font-size: 0.85rem; color: #d1d5db; display: block; white-space: pre-wrap; }
+    .score-badge { padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+    @media (max-width: 768px) { .sim-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Présentation Projet MEG</h1>
+    <p>Réalisé pour <strong>Madame Valérie GAUTARD</strong> : Localisation des sources cérébrales.</p>
+    <div class="scroll-indicator">
+      <span>Consulter l'Introduction</span><br>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+    </div>
+  </section>
+
+  <!-- Section Introduction (NOUVELLE) -->
+  <section id="intro">
+    <h2 class="section-title">Introduction au Problème Inverse</h2>
+    <div class="card" style="border-left: 5px solid var(--accent-blue)">
+      <p>Le projet MEG (Magnétoencéphalographie) repose sur une équation physique fondamentale qui régit la capture des signaux cérébraux :</p>
+      
+      <div style="font-size: 2rem; text-align: center; margin: 2rem 0; color: var(--accent-blue)">
+        \(X = L \cdot Z + n\)
+      </div>
+
+      <div class="explainer">
+        <ul>
+          <li><strong>\(X\) (Mesures)</strong> : Les données captées par les 204 capteurs du casque.</li>
+          <li><strong>\(L\) (Matrice Lead Field)</strong> : La matrice de gain qui définit comment le champ magnétique se propage dans la tête.</li>
+          <li><strong>\(Z\) (Sources)</strong> : L'activité réelle des neurones sur les 450 parcelles du cerveau (ce que nous cherchons).</li>
+          <li><strong>\(n\) (Bruit)</strong> : Les interférences magnétiques ambiantes.</li>
+        </ul>
+      </div>
+      <p>L'objectif de ce travail pour <strong>Mme Valérie GAUTARD</strong> est de trouver un algorithme capable d'inverser cette équation pour retrouver \(Z\) à partir de \(X\).</p>
+    </div>
+  </section>
+
+  <!-- Section 1 : Méthodes & Simulations d'IA -->
+  <section id="methods">
+    <h2 class="section-title">1. Méthodes & Simulations d'IA</h2>
+    
+    <!-- KNN -->
+    <div class="sim-grid">
+      <div><div class="simulation-card"><img src="sim_knn.png" alt="Sim" class="simulation-photo"></div></div>
+      <div>
+        <h3>KNN (K-Nearest Neighbors)</h3>
+        <div class="explainer"><strong>Analogie :</strong> "Dis-moi qui sont tes voisins, je te dirai qui tu es".</div>
+        <div class="tech-deep-dive">Détail technique : Compromis Biais-Variance (\(k=5\)).</div>
+        <a href="code_knn.html" class="btn-full-code">Détails & Code</a>
+      </div>
+    </div>
+
+    <!-- LASSO -->
+    <div class="sim-grid">
+      <div><div class="simulation-card"><img src="sim_lasso.png" alt="Sim" class="simulation-photo"></div></div>
+      <div>
+        <h3>Lasso (Régression \(L_1\))</h3>
+        <div class="explainer"><strong>Analogie :</strong> "Le sculpteur sélectif". On efface tout ce qui n'est pas essentiel.</div>
+        <div class="tech-deep-dive">Détail technique : Norme \(L_1\) forçant la sparsité à zéro.</div>
+        <a href="code_lasso.html" class="btn-full-code">Détails & Code</a>
+      </div>
+    </div>
+
+    <!-- MLP -->
+    <div class="sim-grid" style="margin-bottom: 6rem">
+      <div><div class="simulation-card"><img src="sim_mlp.png" alt="Sim" class="simulation-photo"></div></div>
+      <div>
+        <h3>MLP (Réseau de Neurones)</h3>
+        <div class="explainer"><strong>Analogie :</strong> "L'entonnoir intelligent". On filtre le bruit.</div>
+        <div class="tech-deep-dive">Détail technique : Architecture \(204 \rightarrow 200 \rightarrow 100 \rightarrow 450\).</div>
+        <a href="code_mlp.html" class="btn-full-code" style="background:var(--accent-green)">Détails & Code</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2 : Synthèse Comparative -->
+  <section id="synthesis">
+    <h2 class="section-title">2. Synthèse Comparative des Résultats</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Méthode</th>
+            <th>Implémentation (Code)</th>
+            <th>F1-Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Lasso</strong></td><td><code class="code-snippet">Lasso(alpha=0.5)</code></td><td><span class="score-badge" style="background: rgba(255, 69, 58, 0.1); color: #ff453a;">1.2%</span></td></tr>
+          <tr><td><strong>KNN</strong></td><td><code class="code-snippet">KNeighborsClassifier(k=5)</code></td><td><span class="score-badge" style="background: rgba(255, 159, 10, 0.1); color: #ff9f0a;">~2.5%</span></td></tr>
+          <tr><td><strong>MLP</strong></td><td><code class="code-snippet">MLPRegressor(200, 100)</code></td><td><span class="score-badge" style="background: rgba(63, 185, 80, 0.1); color: #2ea043;">8.4%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 3 : Roadmap Future -->
+  <section id="roadmap">
+    <h2 class="section-title">3. Le Chemin vers les 100% (Innovation)</h2>
+    <div class="card" style="border-top: 5px solid var(--accent-red)">
+      <h3>Innovation : GCN & GAN</h3>
+      <div class="explainer">
+        <span class="roadmap-badge">GCN</span> <strong>Réseau social des capteurs</strong> : Analyse 3D des voisins.
+      </div>
+      <div class="explainer">
+        <span class="roadmap-badge">GAN</span> <strong>Duo faussaire/policier</strong> : Création de données massives.
+      </div>
+      <div style="text-align: center; margin-top: 2rem; background: rgba(46, 160, 67, 0.1); padding: 1.5rem; border-radius: 12px;">
+        <p>Résultat potentiel : <strong style="font-size: 2rem; color: #3fb950;">42.5%</strong></p>
+        <a href="code_innovation.html" class="btn-full-code" style="background:var(--accent-red)">Détails de l'Innovation</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="text-align: center; color: var(--text-secondary); padding: 4rem">
+    <p>Présentation réalisée par Mohamed SELMANI pour Mme Valérie GAUTARD</p>
+  </section>
+
+</body>
+</html>

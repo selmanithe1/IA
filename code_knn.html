@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détails Techniques - KNN</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body style="padding: 2rem">
+  <a href="index.html" style="color:var(--accent-blue); text-decoration:none">← Retour à la présentation</a>
+  <h1 style="margin-top:2rem">Analyse du Code : KNN (\(k=5\))</h1>
+  
+  <div class="grid" style="margin-top:2rem">
+    <div class="card">
+      <h3>Justification Technique</h3>
+      <p>Le KNN base sa prédiction sur la distance euclidienne entre deux vecteurs de capteurs :</p>
+      <p>\[d(x,y) = \sqrt{\sum (x_i - y_i)^2}\]</p>
+      <p><strong>L'astuce technique :</strong> Le choix de \(k=5\) est un compromis mathématique entre la Variance (sensibilité au bruit) et le Biais (manque de précision).</p>
+    </div>
+    <div class="card" style="background: rgba(88, 166, 255, 0.05)">
+      <h3>Détails de l'implémentation</h3>
+      <ul>
+        <li><strong>X_scaled * 1e12</strong> : Indispensable pour que le réseau "voit" les signaux.</li>
+        <li><strong>n_jobs=-1</strong> : Pour accélérer les calculs sur l'ordinateur de Madame.</li>
+      </ul>
+    </div>
+  </div>
+
+  <pre><code>
+<span class="comment"># --- Le scaling par un billion (10^12) ---</span>
+<span class="comment"># Sans cela, les reseaux de neurones ne voient aucune difference.</span>
+X_train = load_meg_data('train') * <span class="string">1e12</span>
+
+<span class="comment"># --- Initialisation KNN ---</span>
+<span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier
+knn = <code class="function">KNeighborsClassifier</code>(n_neighbors=<span class="string">5</span>, n_jobs=<span class="string">-1</span>)
+knn.<code class="function">fit</code>(X_train, Z_train)
+  </code></pre>
+</body>
+</html>

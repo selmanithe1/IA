@@ -1,0 +1,96 @@
+\documentclass[a4paper,12pt,oneside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{DeepBlue}{RGB}{26, 54, 104}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{white},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{purple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    numbers=left,
+    frame=single,
+    rulecolor=\color{DeepBlue}
+}
+
+\geometry{hmargin=2.5cm,vmargin=2.5cm}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \textsc{\LARGE Université Gustave Eiffel}\\[1cm]
+    \textsc{\Large Analyse Technique Approfondie}\\[1.5cm]
+    {\huge \bfseries Guide d'Optimisation du Problème Inverse en MEG }\\[1cm]
+    {\Large \bfseries Mohamed SELMANI}\\[0.5cm]
+    {\large Enseignante : Valérie GAUTARD}\\[2cm]
+    \vfill
+    {\large 19 Mars 2026}
+\end{titlepage}
+
+\chapter{Détails des Méthodes et Code}
+
+\section{Pourquoi le Scaling de la Donnée ?}
+Les mesures MEG Brutes ($X$) sont de l'ordre de $10^{-13}$ Tesla.
+\begin{lstlisting}[caption=Scaling indispensable]
+# Facteur de correction indispensable
+X *= 1e12 # Passage en picoTesla
+\end{lstlisting}
+Sans ce scaling, les poids des réseaux de neurones ne s'initialisent pas correctement (Gradient Vanishing) car les entrées sont trop proches de zéro.
+
+\section{Utility of Sparse Modeling (Lasso)}
+Pour $X = LZ$, si $Z$ est sparse, la norme $L_1$ est la meilleure solution mathématique.
+\begin{lstlisting}[caption=Lasso via Scikit-Learn]
+from sklearn.linear_model import Lasso
+lasso = Lasso(alpha=0.1) # alpha controle la sparsite
+lasso.fit(X_train, Z_train)
+\end{lstlisting}
+\textbf{Utilité :} Elle force le modèle à ne prédire que peu de sources actives (réalité physiologique).
+
+\section{Puissance du Multi-Layer Perceptron (MLP)}
+Le MLP surpasse les autres car il apprend une fonction de régression non-linéaire globale.
+\begin{lstlisting}[caption=Détail du modèle MLP]
+from sklearn.neural_network import MLPRegressor
+clf = MLPRegressor(hidden_layer_sizes=(200, 100), activation='relu')
+\end{lstlisting}
+L'architecture (200, 100) agit comme un goulot d'étranglement (bottleneck) qui extrait les caractéristiques spatiales essentielles avant de prédire les 450 sources.
+
+\chapter{Vers les 100\% d'Apprentissage}
+
+Pour s'approcher d'une précision parfaite, plusieurs axes sont envisageables :
+
+\section{1. Graph Convolutional Networks (GCN)}
+Actuellement, les 204 capteurs sont traités comme un simple vecteur plat. Or, ils ont une topologie spatiale (le casque).
+\textbf{Proposition :} Créer un graphe où chaque capteur est relié à ses voisins directs. Un GCN pourrait alors appliquer des filtres spatiaux locaux, bien plus efficaces qu'une couche dense (MLP).
+
+\section{2. Physics-Informed Loss (PINN)}
+La précision chute car le modèle "invente" des solutions mathématiquement correctes mais physiquement impossibles.
+\textbf{Solution :} Intégrer la matrice de Gain $L$ dans la fonction de perte :
+$$ \text{Loss} = \text{MSE}(Z, \hat{Z}) + \lambda || X - L \hat{Z} ||^2 $$
+Cela force le réseau à respecter les lois de la physique (Vérification de la reconstruction du signal).
+
+\section{3. Augmentation de Données Synthétiques}
+Plus le dataset est riche, plus le modèle converge vers 100\%. On peut générer des milliers de configurations de sources ($Z_{synth}$) et calculer les mesures correspondantes via $X = LZ$.
+
+\chapter{Synthèse Finale}
+Atteindre 100\% de subset accuracy sur des données réelles est illusoire à cause du bruit de mesure. Cependant, un MLP optimisé avec une fonction de perte informée par la physique (PINN) et des données augmentées permet d'atteindre des performances bien supérieures aux méthodes classiques.
+
+\end{document}

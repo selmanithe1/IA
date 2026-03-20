@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détails Techniques - MLP</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body style="padding: 2rem">
+  <a href="index.html" style="color:var(--accent-blue); text-decoration:none">← Retour à la présentation</a>
+  <h1 style="margin-top:2rem">Analyse du Code : MLP (Deep Learning)</h1>
+
+  <div class="grid" style="margin-top:2rem">
+    <div class="card">
+      <h3>L'Architecture Gagnante</h3>
+      <p>Le signal traverse un entonnoir de neurones : <strong>204 (Entrée) \(\rightarrow\) 200 \(\rightarrow\) 100 \(\rightarrow\) 450 (Sortie)</strong>.</p>
+      <div class="tech-deep-dive">
+        <strong>ReLU (f(x)=max(0,x)) :</strong> imite le comportement biologique. Le neurone ne déclenche un signal que si le potentiel dépasse un seuil.
+      </div>
+    </div>
+    <div class="card" style="background: rgba(63, 185, 80, 0.05)">
+      <h3>Optimisation Adam & Backprop</h3>
+      <p>Utilise 500 itérations de rétropropagation pour ajuster les poids et apprendre la "carte de gain inverse" du cerveau.</p>
+    </div>
+  </div>
+
+  <pre><code>
+<span class="comment"># --- MLP robuste avec 500 iterations ---</span>
+<span class="keyword">from</span> sklearn.neural_network <span class="keyword">import</span> MLPRegressor
+
+mlp = <code class="function">MLPRegressor</code>(
+    hidden_layer_sizes=(<span class="string">200, 100</span>), 
+    activation=<span class="string">'relu'</span>, 
+    solver=<span class="string">'adam'</span>, 
+    max_iter=<span class="string">500</span>,
+    verbose=<span class="string">True</span>
+).fit(X_train, Z_train)
+
+<span class="comment"># Evaluation finale via F1-Score sur seuil 0.5</span>
+Z_pred = (mlp.<code class="function">predict</code>(X_test) > <span class="string">0.5</span>)
+  </code></pre>
+</body>
+</html>

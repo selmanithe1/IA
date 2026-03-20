@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détails Techniques - Lasso</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body style="padding: 2rem">
+  <a href="index.html" style="color:var(--accent-blue); text-decoration:none">← Retour à la présentation</a>
+  <h1 style="margin-top:2rem">Analyse du Code : Lasso (\(L_1\))</h1>
+
+  <div class="grid" style="margin-top:2rem">
+    <div class="card">
+      <h3>Justification Technique</h3>
+      <p>L'activité du cerveau est très "sparse" (peu de zones actives). Le Lasso minimise :</p>
+      <p>\[ \min_Z \frac{1}{2} \|X - LZ\|^2_2 + \alpha \|Z\|_1 \]</p>
+      <p>La pénalité \(\|Z\|_1\) force les coefficients inactifs à valoir exactement <strong>zéro</strong> car sa forme géométrique en diamant favorise les solutions sur les axes.</p>
+    </div>
+    <div class="card" style="background: rgba(188, 140, 255, 0.05)">
+      <h3>Pourquoi alpha=0.5 ?</h3>
+      <p>Le paramètre \(\alpha\) détermine la force de cette pénalité pour obtenir un modèle "sparse" afin de respecter la biologie cérébrale.</p>
+    </div>
+  </div>
+
+  <pre><code>
+<span class="comment"># --- Le Lasso pour la Sparsite ---</span>
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso
+<span class="comment"># alpha=0.5 determine la force de la regularisation L1</span>
+lasso = <code class="function">Lasso</code>(alpha=<span class="string">0.5</span>).fit(X_train, Z_train)
+
+<span class="comment"># Prediction seuillee pour le binaire</span>
+Z_pred = (lasso.<code class="function">predict</code>(X_test) > <span class="string">0.5</span>)
+  </code></pre>
+</body>
+</html>
